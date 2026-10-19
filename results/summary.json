@@ -1,7 +1,7 @@
 {
   "areas_2011": 348,
   "areas_matched_2021": 323,
-  "pca_marked_20": {
+  "pca_all_20": {
     "features": 20,
     "explained_variance": [
       0.4729,
@@ -92,7 +92,7 @@
         "coverage_95": 0.935
       }
     },
-    "marked_version": {
+    "simple": {
       "predictors": [
         "unemployment_pct",
         "asian_pct"

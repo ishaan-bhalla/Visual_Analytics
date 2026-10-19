@@ -185,7 +185,7 @@ def build(df: pd.DataFrame, summary: dict, geo: list) -> tuple[alt.VConcatChart,
     observed = observed + diagonal
 
     coefs = []
-    for model, label in [("marked_version", "Marked version"), ("extended", "Extended (adds 2011 health)")]:
+    for model, label in [("simple", "Simple model"), ("extended", "Extended (adds 2011 health)")]:
         for row in summary["models"][model]["coefficients_per_sd"]:
             if row["term"] != "intercept":
                 coefs.append({**row, "model": label})
@@ -195,7 +195,7 @@ def build(df: pd.DataFrame, summary: dict, geo: list) -> tuple[alt.VConcatChart,
     cdf = pd.DataFrame(coefs).assign(term=lambda d: d.term.map(names))
     cbase = alt.Chart(cdf).encode(y=alt.Y("term:N", title=None, sort=list(names.values())),
                                   yOffset=alt.YOffset("model:N"),
-                                  color=alt.Color("model:N", scale=alt.Scale(domain=["Marked version", "Extended (adds 2011 health)"],
+                                  color=alt.Color("model:N", scale=alt.Scale(domain=["Simple model", "Extended (adds 2011 health)"],
                                                                   range=["#9e9e9e", "#3f51b5"]),
                                                   legend=alt.Legend(title=None, orient="bottom", columns=1)))
     coef_chart = (cbase.mark_rule(strokeWidth=2).encode(x=alt.X("ci_low:Q", title="Effect per 1 SD (pp), 95% CI"),

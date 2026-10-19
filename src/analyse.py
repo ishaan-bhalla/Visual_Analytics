@@ -28,7 +28,7 @@ SOCIO = ["employment_pct", "unemployment_pct", "inactivity_pct", "full_time_pct"
          "moved_from_outside_uk_pct", "moved_out_pct"]
 HEALTH_2011 = ["limited_any_pct", "not_limited_pct", "good_or_very_good_health_pct",
                "fair_health_pct", "bad_or_very_bad_health_pct"]
-ALL_2011 = SOCIO + HEALTH_2011  # the 20 features the marked version used
+ALL_2011 = SOCIO + HEALTH_2011  # all 20 features, health included
 
 
 def pca(df: pd.DataFrame, cols: list[str]) -> tuple[np.ndarray, dict]:
@@ -93,7 +93,7 @@ def name_clusters(df: pd.DataFrame, labels: np.ndarray) -> tuple[pd.Series, list
 
 def bayes_fit(X: np.ndarray, y: np.ndarray, draws: int = 4000) -> dict:
     """Conjugate Bayesian linear regression with the reference prior
-    p(beta, sigma^2) ~ 1/sigma^2, as in the marked version. Returns posterior draws."""
+    p(beta, sigma^2) ~ 1/sigma^2. Returns posterior draws."""
     rng = np.random.default_rng(SEED)
     Xb = np.hstack([np.ones((len(X), 1)), X])
     n, p = Xb.shape
@@ -146,8 +146,8 @@ def main() -> None:
     df = pd.read_csv(DATA / "areas_2011_2021.csv")
     summary: dict = {"areas_2011": int(len(df)), "areas_matched_2021": int(df.matched_2021.sum())}
 
-    # 1. PCA as marked (20 features incl. health) and socio-economic only (15).
-    pca_all, summary["pca_marked_20"] = pca(df, ALL_2011)
+    # 1. PCA on all 20 features (health included) and on the 15 socio-economic ones.
+    pca_all, summary["pca_all_20"] = pca(df, ALL_2011)
     pca_soc, summary["pca_socio_15"] = pca(df, SOCIO)
     df[["pc1_all", "pc2_all"]] = pca_all
     df[["pc1", "pc2"]] = pca_soc
@@ -165,7 +165,7 @@ def main() -> None:
     y = m["good_change"].to_numpy()
     models = {
         "intercept_only": [],
-        "marked_version": ["unemployment_pct", "asian_pct"],
+        "simple": ["unemployment_pct", "asian_pct"],
         "extended": ["good_or_very_good_health_pct", "unemployment_pct", "inactivity_pct",
                      "asian_pct", "moved_from_outside_uk_pct"],
     }
@@ -173,8 +173,8 @@ def main() -> None:
     for name, cols in models.items():
         X = m[cols].to_numpy() if cols else np.zeros((len(m), 0))
         entry = {"predictors": cols, "cv_5fold": cross_validate(X, y)}
-        if name == "marked_version":
-            # Raw (unscaled) coefficients, comparable with the marked report.
+        if name == "simple":
+            # Raw (unscaled) coefficients: pp of change per percentage point.
             entry["coefficients_raw"] = coef_table(bayes_fit(X, y), cols)
         if cols:
             sc = StandardScaler().fit(X)
@@ -202,7 +202,7 @@ def main() -> None:
 
     df.round(4).to_csv(DATA / "analysis.csv", index=False)
     (RESULTS / "summary.json").write_text(json.dumps(summary, indent=2))
-    print(json.dumps({k: summary[k] for k in ["pca_marked_20", "pca_socio_15", "clustering", "clusters",
+    print(json.dumps({k: summary[k] for k in ["pca_all_20", "pca_socio_15", "clustering", "clusters",
                                               "models", "good_change"]}, indent=1))
 
 

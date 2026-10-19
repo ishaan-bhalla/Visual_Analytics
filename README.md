@@ -15,7 +15,7 @@
 ## Key findings
 
 - **270 of 323** local authorities reported better general health in 2021 than in 2011, but the average gain was small: **+0.63 percentage points** of residents in good or very good health (range −1.81 to +3.33).
-- **Catch-up:** areas that were less healthy in 2011 improved more (r = −0.23). Once the model accounts for this, the apparent link between unemployment and health change shrinks and is no longer clearly different from zero.
+- **Catch-up:** areas that were less healthy in 2011 improved more (r = −0.23), partly through regression to the mean (see [Limitations](#8-limitations-and-ethics)). Once the model accounts for this, the apparent link between unemployment and health change shrinks and is no longer clearly different from zero.
 - **London and large diverse cities improved most.** A data-driven cluster of **48** ethnically diverse, high-migration areas gained **+1.27 pp** on average, against **+0.52 pp** for the other 300. London's 33 boroughs rose from 84.0% to 85.6%.
 - **The model explains about 28% of the variation** in change on held-out areas, and its 95% intervals contain 94% of real outcomes. Most of the variation comes from factors this data does not include, most likely age structure.
 
@@ -24,7 +24,7 @@ These are area-level associations, not causes (see [Limitations](#8-limitations-
 ## Contents
 
 1. [Problem and users](#1-problem-and-users)
-2. [What changed after marking](#2-what-changed-after-marking)
+2. [Design decisions](#2-design-decisions)
 3. [Data](#3-data)
 4. [Pipeline](#4-pipeline)
 5. [Methods](#5-methods)
@@ -51,20 +51,17 @@ Health in England and Wales is unequal between places, and the Census is the onl
 
 The design follows Munzner's task taxonomy (explore, compare, identify, summarise, predict); [section 6](#6-the-dashboard) maps each task to a view.
 
-## 2. What changed after marking
+## 2. Design decisions
 
-This started as my individual coursework for **Visual Analytics (EMATM0066), MSc Data Science, University of Bristol**, submitted in May 2026 with a Tableau dashboard. After it was marked I rebuilt it to address every point in the feedback. The analysis code, maps, linked views and this write-up are all **post-marking work**.
-
-| Marker's feedback | What changed |
+| Problem | Decision |
 |---|---|
-| Motivation and research focus are general | Three research questions and named users ([section 1](#1-problem-and-users)) |
-| Data preparation lacks exact census tables, final sample size, boundary matching and missing-value handling | Every table named; area counts logged at each step; six recoded councils and 25 merged councils documented; missing values checked and reported ([section 3](#3-data)) |
-| Chart types are limited; no maps | Three choropleth maps, a regional dumbbell chart, a coefficient plot with credible intervals and an observed-vs-predicted plot, alongside the scatter plots |
-| Little interaction between views | The seven area-level views share one selection: brush the PCA or click any area, and it is highlighted in all of them; one region filter drives every view; a menu recolours the first map by any variable, and the scatters zoom and pan |
-| Conclusion is basic | Quantified findings, a corrected direction for unemployment (see below), and an extended model that controls for 2011 health |
-| Report short; figures not annotated | This README, with a takeaway under every figure |
+| Council boundaries changed between 2011 and 2021 | Every Census table is named, area counts are logged at each step, six recoded councils are mapped back to their 2011 codes, and 25 merged councils are kept on the maps but left out of change analysis ([section 3](#3-data)) |
+| Colouring a health map by clusters built from health is circular | The dashboard's PCA and clusters use the 15 socio-economic variables only |
+| Area-level change is confounded by the starting point | An extended model controls for 2011 health, and every model is compared on held-out areas with 5-fold cross-validation |
+| One chart rarely answers a spatial question | Three choropleth maps, linked to the scatter plots: brush or click in one view and the same areas light up in all of them |
+| Point estimates hide uncertainty | Bayesian credible intervals on every coefficient and predictive intervals on every prediction |
 
-**A correction.** The marked report said that higher unemployment was associated with *smaller* health improvements. Its own model said the opposite: the unemployment coefficient was **+0.13** per percentage point (95% credible interval +0.09 to +0.17). Areas with higher unemployment improved *more*. The extended model below shows most of that is catch-up from a lower 2011 starting point.
+**Reading the sign.** The simple model (unemployment and Asian population share) gives unemployment a coefficient of **+0.13** per percentage point (95% credible interval +0.09 to +0.17): areas with higher unemployment improved *more*, not less. The extended model below shows most of that is catch-up from a lower 2011 starting point.
 
 ## 3. Data
 
@@ -114,7 +111,7 @@ Boundaries come from the [ONS Open Geography Portal](https://geoportal.statistic
 
 **Dimensionality reduction.** All features are standardised first.
 
-- **PCA as marked:** on all 20 variables, health included. It captures **73.3%** of variance in two components, reproducing the marked version.
+- **PCA on all 20 variables**, health included, captures **73.3%** of variance in two components.
 - **PCA in the dashboard:** on the **15 socio-economic variables only**, so that colouring by health is not circular. It captures **69.7%** of variance (PC1 47%, PC2 22%).
 - **Reading the axes:**
   - **PC1** rises with ethnic diversity and international migration. The largest loadings are Mixed, from outside the UK, Other and Black (positive), and White (negative).
@@ -131,7 +128,7 @@ Boundaries come from the [ONS Open Geography Portal](https://geoportal.statistic
 | Model | Predictors (2011 values) |
 |---|---|
 | Intercept only | none (baseline) |
-| **Marked version** | unemployment, Asian population share |
+| **Simple** | unemployment, Asian population share |
 | **Extended** | good health, unemployment, inactivity, Asian population share, arrived from outside the UK |
 
 Predictors are standardised, so each coefficient is the change in pp per one standard deviation. I compare models with **5-fold cross-validation**: out-of-sample RMSE, R², and how often the 95% interval contains the observed value.
@@ -196,7 +193,7 @@ Predictors are standardised, so each coefficient is the change in pp per one sta
 | Model (5-fold CV) | RMSE (pp) | R² | 95% interval coverage |
 |---|---|---|---|
 | Intercept only | 0.743 | 0.00 | 93.5% |
-| Marked version | 0.634 | 0.27 | 95.0% |
+| Simple | 0.634 | 0.27 | 95.0% |
 | Extended | **0.630** | **0.28** | 94.4% |
 
 **Extended model coefficients** (pp change per 1 SD, 95% credible interval):
@@ -209,12 +206,13 @@ Predictors are standardised, so each coefficient is the change in pp per one sta
 | Asian population share | +0.29 | +0.19 to +0.38 | Clear positive association |
 | Arrived from outside the UK | +0.09 | −0.01 to +0.19 | Weak, uncertain |
 
-**Conclusion.** Health improved slightly almost everywhere, most in London and diverse cities and least in parts of the South East and South West. Part of the variation is catch-up by areas that started less healthy. Unemployment adds little once that is accounted for. Areas with larger Asian populations improved more, but the likeliest explanation is a confounder this data lacks, such as a younger age structure, not ethnicity itself. The extended model adds little predictive power over the marked one (R² 0.28 vs 0.27), so its value is in interpretation, not forecasting.
+**Conclusion.** Health improved slightly almost everywhere, most in London and diverse cities and least in parts of the South East and South West. Part of the variation is catch-up by areas that started less healthy. Unemployment adds little once that is accounted for. Areas with larger Asian populations improved more, but the likeliest explanation is a confounder this data lacks, such as a younger age structure, not ethnicity itself. The extended model adds little predictive power over the simple one (R² 0.28 vs 0.27), so its value is in interpretation, not forecasting.
 
 ## 8. Limitations and ethics
 
 - **Ecological data.** These are associations between areas, not individuals. They say nothing about whether any individual's health depends on their employment or ethnicity.
 - **Missing confounders.** Age structure, deprivation and access to healthcare are not in this data and probably drive much of the unexplained variation. The ethnicity association in particular should not be read as causal.
+- **Regression to the mean.** Part of the catch-up effect is statistical, not real improvement: an area whose 2011 health score was low partly by chance tends to score closer to average in 2021. Including 2011 health as a predictor separates this from the other effects, but the catch-up coefficient itself should not be read as a pure recovery.
 - **Self-reported health and COVID-19.** The 2021 Census took place during the pandemic (21 March 2021), which may have changed how people rated their health.
 - **Boundary changes.** 25 merged councils are excluded from the change analysis. They are a mix of towns (Bournemouth, Poole, Northampton) and rural districts, so the change analysis covers 323 of 348 areas, not all of them.
 - **Responsible framing.** Ethnicity and migration variables can be misused to stigmatise places or groups. The dashboard presents them only as area-level context, with uncertainty shown, and the write-up warns against causal readings.
