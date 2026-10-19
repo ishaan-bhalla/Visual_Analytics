@@ -3,7 +3,8 @@
 Every view is drawn from the same per-area table, so one selection drives them
 all: drag a box on the PCA plot, or click areas on any map or scatter (shift
 for several), and the same areas light up everywhere. The region menu filters
-every view.
+every view, the variable menu picks what the first map shows, and the t-SNE,
+catch-up and model-fit scatters zoom (scroll) and pan (drag).
 
 Run from the repo root:  python src/dashboard.py
 """
@@ -23,6 +24,30 @@ CLUSTER_COLOURS = alt.Scale(domain=["Diverse, high-migration urban areas", "Less
                             range=["#d95f02", "#1b9e77"])
 NO_DATA = "#9e9e9e"
 W, H = 290, 320  # map size
+
+# Every 2011 variable the first map can show (all are percentages).
+MAP_VARIABLES = {
+    "good_or_very_good_health_pct": "Good or very good health",
+    "fair_health_pct": "Fair health",
+    "bad_or_very_bad_health_pct": "Bad or very bad health",
+    "limited_any_pct": "Day-to-day activities limited",
+    "not_limited_pct": "Day-to-day activities not limited",
+    "employment_pct": "Employment",
+    "unemployment_pct": "Unemployment",
+    "inactivity_pct": "Economic inactivity",
+    "full_time_pct": "Full-time workers",
+    "part_time_pct": "Part-time workers",
+    "white_pct": "White",
+    "mixed_pct": "Mixed/multiple ethnic groups",
+    "asian_pct": "Asian/Asian British",
+    "black_pct": "Black/African/Caribbean/Black British",
+    "other_pct": "Other ethnic group",
+    "same_address_pct": "Same address as a year before",
+    "moved_within_area_pct": "Moved within the area",
+    "moved_from_uk_pct": "Moved in from elsewhere in the UK",
+    "moved_from_outside_uk_pct": "Arrived from outside the UK",
+    "moved_out_pct": "Moved out of the area",
+}
 
 
 def _signed_area(ring: list) -> float:
@@ -52,6 +77,9 @@ def build(df: pd.DataFrame, summary: dict, geo: list) -> tuple[alt.VConcatChart,
     region = alt.param(name="region", value="All",
                        bind=alt.binding_select(options=["All"] + regions, name="Filter by region: ",
                                                  element="#controls"))
+    variable = alt.param(name="variable", value="good_or_very_good_health_pct",
+                         bind=alt.binding_select(options=list(MAP_VARIABLES), labels=list(MAP_VARIABLES.values()),
+                                                 name="First map shows (2011, %): ", element="#controls"))
     pick = alt.selection_point(name="pick", fields=["area_code"], on="click", toggle="event.shiftKey",
                                clear="dblclick")
     brush = alt.selection_interval(name="brush", encodings=["x", "y"], clear="dblclick")
@@ -69,16 +97,22 @@ def build(df: pd.DataFrame, summary: dict, geo: list) -> tuple[alt.VConcatChart,
                alt.Tooltip("unemployment_pct:Q", title="Unemployment (%)", format=".1f"),
                alt.Tooltip("status:N", title="2021 match")]
 
-    def geomap(field: str, title: str, scheme: str, domain_mid: float | None, fmt: str, legend: str) -> alt.Chart:
+    def geomap(field: str, title, scheme: str, domain_mid: float | None, fmt: str, legend: str,
+               value_expr: str | None = None) -> alt.Chart:
         scale = alt.Scale(scheme=scheme, domainMid=domain_mid, reverse=False) if domain_mid is not None \
             else alt.Scale(scheme=scheme)
         shapes = base.transform_lookup(lookup="geo_code",
                                        from_=alt.LookupData(alt.NamedData(name="lad11"), key="properties.lad11cd"),
                                        as_="geo")
+        if value_expr:
+            # The value is computed from a menu choice, so the map can show any variable.
+            shapes = shapes.transform_calculate(**{field: value_expr})
+        tips = tooltip + [alt.Tooltip(f"{field}:Q", title="Shown on this map (%)", format=".1f")] if value_expr \
+            else tooltip
         # Vega-Lite drops shapes whose colour value is null, so draw every area
         # in grey first; areas with no value (merged councils) stay grey.
         under = shapes.mark_geoshape(fill=NO_DATA, stroke="white", strokeWidth=0.25).encode(
-            shape="geo:G", tooltip=tooltip)
+            shape="geo:G", tooltip=tips)
         over = (shapes.transform_filter(f"isValid(datum.{field})")
                 .mark_geoshape(stroke="white", strokeWidth=0.25)
                 .encode(shape="geo:G",
@@ -86,11 +120,13 @@ def build(df: pd.DataFrame, summary: dict, geo: list) -> tuple[alt.VConcatChart,
                                         legend=alt.Legend(title=legend, orient="bottom", format=fmt,
                                                           gradientLength=200)),
                         opacity=alt.condition(active, alt.value(1), alt.value(0.25)),
-                        tooltip=tooltip)
+                        tooltip=tips)
                 .add_params(pick))
         return (under + over).project(type="mercator").properties(width=W, height=H, title=title)
 
-    map_2011 = geomap("good_or_very_good_health_pct", "Good health, 2011", "greens", None, ".0f", "% good/very good")
+    labels = json.dumps(MAP_VARIABLES)
+    map_2011 = geomap("map_value", alt.Title(text=alt.ExprRef(f"{labels}[variable] + ', 2011'")), "greens", None,
+                      ".0f", "% of residents", value_expr="datum[variable]")
     map_change = geomap("good_change", "Change in good health, 2011 to 2021", "redblue", 0, "+.1f",
                         "pp (grey: merged council)")
     map_resid = geomap("residual", "Where the model is wrong (residuals)", "purpleorange", 0, "+.1f",
@@ -117,8 +153,8 @@ def build(df: pd.DataFrame, summary: dict, geo: list) -> tuple[alt.VConcatChart,
                     color=alt.Color("cluster:N", scale=CLUSTER_COLOURS, legend=None),
                     opacity=alt.condition(active, alt.value(0.9), alt.value(0.1)),
                     tooltip=tooltip)
-            .add_params(pick)
-            .properties(width=W, height=280, title="t-SNE: local neighbourhoods"))
+            .add_params(pick, alt.selection_interval(name="zoom_tsne", bind="scales"))
+            .properties(width=W, height=280, title="t-SNE: local neighbourhoods (scroll to zoom)"))
 
     catchup = (base.transform_filter("datum.matched_2021")
                .mark_circle(size=35)
@@ -128,7 +164,7 @@ def build(df: pd.DataFrame, summary: dict, geo: list) -> tuple[alt.VConcatChart,
                        color=alt.Color("cluster:N", scale=CLUSTER_COLOURS, legend=None),
                        opacity=alt.condition(active, alt.value(0.9), alt.value(0.1)),
                        tooltip=tooltip)
-               .add_params(pick)
+               .add_params(pick, alt.selection_interval(name="zoom_catchup", bind="scales"))
                .properties(width=W, height=280, title="Catch-up: less healthy areas improved more"))
     catchup = catchup + catchup.transform_regression("good_or_very_good_health_pct", "good_change") \
         .mark_line(color="black", strokeDash=[4, 3]).encode(color=alt.value("black"), opacity=alt.value(1))
@@ -141,7 +177,7 @@ def build(df: pd.DataFrame, summary: dict, geo: list) -> tuple[alt.VConcatChart,
                                         legend=None),
                         opacity=alt.condition(active, alt.value(0.9), alt.value(0.1)),
                         tooltip=tooltip)
-                .add_params(pick)
+                .add_params(pick, alt.selection_interval(name="zoom_fit", bind="scales"))
                 .properties(width=W, height=280, title="Model fit: observed vs predicted"))
     lims = [float(df.good_change.min()), float(df.good_change.max())]
     diagonal = alt.Chart(pd.DataFrame({"x": lims, "y": lims})).mark_line(color="grey", strokeDash=[4, 3]) \
@@ -187,7 +223,7 @@ def build(df: pd.DataFrame, summary: dict, geo: list) -> tuple[alt.VConcatChart,
     explore = alt.hconcat(pca, tsne, catchup).resolve_scale(color="shared")
     model = alt.hconcat(observed, coef_chart, dumbbell).resolve_scale(color="independent")
     dash = (alt.vconcat(maps, explore, model)
-            .add_params(region)
+            .add_params(region, variable)
             .properties(datasets={"lad11": geo})
             .configure_view(stroke=None)
             .configure_title(fontSize=13, anchor="start")
@@ -218,7 +254,7 @@ PAGE = """<!doctype html>
   .card b {{ display:block; font-size:20px; color:var(--accent); }}
   .how {{ color:var(--muted); font-size:13px; margin:0 0 10px; }}
   #vis {{ overflow-x:auto; }}
-  #controls {{ margin:0 0 10px; font-size:14px; }}
+  #controls {{ margin:0 0 10px; font-size:14px; display:flex; flex-wrap:wrap; gap:6px 24px; }}
   #controls select {{ font-size:14px; padding:2px 4px; }}
   footer {{ color:var(--muted); font-size:12px; margin-top:24px; }}
   a {{ color:#1a73e8; }}
@@ -236,8 +272,10 @@ PAGE = """<!doctype html>
     <div class="card"><b>{diverse} areas</b>form a distinct diverse, high-migration cluster: London and large cities</div>
   </div>
   <p class="how">How to use: drag a box on the PCA plot, or click any area (shift-click for several), and the same
-     areas light up in every view. Double-click to clear. The region menu filters everything. Grey areas on the
-     change map are councils merged between 2019 and 2021, which have no like-for-like 2021 figure.</p>
+     areas light up in every view. Double-click to clear. The region menu filters everything, and the variable
+     menu colours the first map by any of the 20 Census variables. Scroll to zoom and drag to pan on the t-SNE,
+     catch-up and model-fit plots; double-click resets them. Hover for exact values. Grey areas on the change map
+     are councils merged between 2019 and 2021, which have no like-for-like 2021 figure.</p>
   <div id="controls"></div>
   <div id="vis"></div>
   <footer>Data: ONS 2011 and 2021 Census via Nomis; boundaries: ONS Open Geography Portal, Local Authority

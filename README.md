@@ -61,7 +61,7 @@ This started as my individual coursework for **Visual Analytics (EMATM0066), MSc
 | Motivation and research focus are general | Three research questions and named users ([section 1](#1-problem-and-users)) |
 | Data preparation lacks exact census tables, final sample size, boundary matching and missing-value handling | Every table named; area counts logged at each step; six recoded councils and 25 merged councils documented; missing values checked and reported ([section 3](#3-data)) |
 | Chart types are limited; no maps | Three choropleth maps, a regional dumbbell chart, a coefficient plot with credible intervals and an observed-vs-predicted plot, alongside the scatter plots |
-| Little interaction between views | The seven area-level views share one selection: brush the PCA or click any area, and it is highlighted in all of them; one region filter drives every view |
+| Little interaction between views | The seven area-level views share one selection: brush the PCA or click any area, and it is highlighted in all of them; one region filter drives every view; a menu recolours the first map by any variable, and the scatters zoom and pan |
 | Conclusion is basic | Quantified findings, a corrected direction for unemployment (see below), and an extended model that controls for 2011 health |
 | Report short; figures not annotated | This README, with a takeaway under every figure |
 
@@ -159,10 +159,13 @@ Predictors are standardised, so each coefficient is the change in pp per one sta
 - **Drag a box** on the PCA plot to select a group of areas.
 - **Click** any area on a map or scatter; **shift-click** to add more; **double-click** to clear.
 - **Filter by region** at the top; every view, maps included, zooms and filters.
+- **Choose a variable** for the first map: any of the 20 Census variables (health, employment, ethnicity, migration).
+- **Scroll to zoom and drag to pan** on the t-SNE, catch-up and model-fit plots; double-click resets them.
+- **Hover** for exact values.
 
 | View | Munzner task | Question |
 |---|---|---|
-| Map: good health 2011 | Explore, identify | RQ1 |
+| Map: any 2011 variable (menu; good health by default) | Explore, identify | RQ1, RQ2 |
 | Map: change 2011 to 2021 | Compare, identify | RQ1 |
 | Map: model residuals | Identify outliers, assess | RQ3 |
 | Socio-economic PCA (brushable) | Explore, identify clusters | RQ2 |
