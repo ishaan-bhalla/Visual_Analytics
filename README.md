@@ -32,8 +32,7 @@ These are area-level associations, not causes (see [Limitations](#8-limitations-
 7. [Results](#7-results)
 8. [Limitations and ethics](#8-limitations-and-ethics)
 9. [Reproduce it](#9-reproduce-it)
-10. [Repository structure](#10-repository-structure)
-11. [References and licence](#11-references-and-licence)
+10. [References and licence](#10-references-and-licence)
 
 ## 1. Problem and users
 
@@ -109,20 +108,7 @@ Boundaries come from the [ONS Open Geography Portal](https://geoportal.statistic
 
 [![Architecture diagram of ishaan-bhalla/visual_analytics](https://gitdiagram.com/ishaan-bhalla/visual_analytics/diagram.png)](https://gitdiagram.com/ishaan-bhalla/visual_analytics?utm_source=readme&utm_medium=picture)
 
-*Repository architecture (GitDiagram; click to explore it interactively). The flow below shows how data moves through the scripts.*
-
-```mermaid
-flowchart LR
-    A[5 Census tables<br/>data/raw] --> B[prepare.py<br/>clean, % conversion,<br/>join on area code]
-    G[ONS 2011 boundaries<br/>+ region lookup] --> B
-    B --> C[areas_2011_2021.csv<br/>348 areas, 323 matched]
-    C --> D[analyse.py<br/>PCA, t-SNE, k-means,<br/>Bayesian regression]
-    D --> E[analysis.csv<br/>results/summary.json]
-    E --> F[dashboard.py<br/>Altair / Vega-Lite]
-    G --> F
-    F --> H[docs/index.html<br/>live dashboard]
-    F --> I[docs/figures/*.png<br/>README figures]
-```
+*Repository architecture (GitDiagram; click to explore it interactively).*
 
 ## 5. Methods
 
@@ -250,24 +236,7 @@ python src/dashboard.py   # docs/index.html and docs/figures/*.png
 
 Open `docs/index.html` in a browser to use the dashboard locally. Random seeds are fixed (42), so results are identical between runs.
 
-## 10. Repository structure
-
-```
-Visual_Analytics/
-├── data/
-│   ├── raw/                 # five Census tables, as downloaded from Nomis
-│   ├── geo/                 # ONS Dec 2011 district boundaries + region lookup
-│   └── processed/           # generated: cleaned areas, analysis output, pipeline log
-├── src/
-│   ├── prepare.py           # cleaning, % conversion, joins, boundary matching
-│   ├── analyse.py           # PCA, t-SNE, k-means, Bayesian regression, cross-validation
-│   └── dashboard.py         # linked Altair dashboard and README figures
-├── results/summary.json     # every headline number in this README
-├── docs/                    # GitHub Pages site: index.html + figures/
-└── requirements.txt
-```
-
-## 11. References and licence
+## 10. References and licence
 
 **References**
 
