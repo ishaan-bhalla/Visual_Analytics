@@ -202,6 +202,7 @@ PAGE = """<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Health and Inequality, England & Wales</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23238b45%27/%3E%3Crect x=%277%27 y=%2717%27 width=%275%27 height=%278%27 rx=%271%27 fill=%27white%27/%3E%3Crect x=%2714%27 y=%2711%27 width=%275%27 height=%2714%27 rx=%271%27 fill=%27white%27/%3E%3Crect x=%2721%27 y=%276%27 width=%275%27 height=%2719%27 rx=%271%27 fill=%27white%27/%3E%3C/svg%3E">
 <script src="https://cdn.jsdelivr.net/npm/vega@{vega}"></script>
 <script src="https://cdn.jsdelivr.net/npm/vega-lite@{vegalite}"></script>
 <script src="https://cdn.jsdelivr.net/npm/vega-embed@{embed}"></script>

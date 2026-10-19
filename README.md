@@ -107,6 +107,10 @@ Boundaries come from the [ONS Open Geography Portal](https://geoportal.statistic
 
 ## 4. Pipeline
 
+[![Architecture diagram of ishaan-bhalla/visual_analytics](https://gitdiagram.com/ishaan-bhalla/visual_analytics/diagram.png)](https://gitdiagram.com/ishaan-bhalla/visual_analytics?utm_source=readme&utm_medium=picture)
+
+*Repository architecture (GitDiagram; click to explore it interactively). The flow below shows how data moves through the scripts.*
+
 ```mermaid
 flowchart LR
     A[5 Census tables<br/>data/raw] --> B[prepare.py<br/>clean, % conversion,<br/>join on area code]
