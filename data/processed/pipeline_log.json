@@ -1,0 +1,199 @@
+{
+  "steps": [
+    {
+      "step": "Employment 2011 (KS601UK, UK)",
+      "areas": 406,
+      "note": "UK-wide table"
+    },
+    {
+      "step": "Migration 2011 (UK)",
+      "areas": 406,
+      "note": "UK-wide table"
+    },
+    {
+      "step": "Ethnic group 2011 (KS201EW)",
+      "areas": 348,
+      "note": "England & Wales only"
+    },
+    {
+      "step": "Health 2011 (KS301EW)",
+      "areas": 348,
+      "note": "England & Wales only"
+    },
+    {
+      "step": "General health 2021 (TS037)",
+      "areas": 331,
+      "note": "2021 council boundaries"
+    },
+    {
+      "step": "2011 tables merged (inner join on code)",
+      "areas": 348,
+      "note": "keeps England & Wales; drops Scotland and Northern Ireland"
+    },
+    {
+      "step": "Matched to 2021 by area code",
+      "areas": 323,
+      "note": "25 areas merged into new councils 2019-2023"
+    }
+  ],
+  "missing_values": {
+    "employment": 0,
+    "ethnicity": 0,
+    "migration": 0,
+    "health_2011": 0,
+    "health_2021": 0
+  },
+  "recoded_areas": [
+    {
+      "census_code": "E06000057",
+      "boundary_2011_code": "E06000048"
+    },
+    {
+      "census_code": "E08000037",
+      "boundary_2011_code": "E08000020"
+    },
+    {
+      "census_code": "E07000240",
+      "boundary_2011_code": "E07000100"
+    },
+    {
+      "census_code": "E07000241",
+      "boundary_2011_code": "E07000104"
+    },
+    {
+      "census_code": "E07000242",
+      "boundary_2011_code": "E07000097"
+    },
+    {
+      "census_code": "E07000243",
+      "boundary_2011_code": "E07000101"
+    }
+  ],
+  "unmatched_2011_areas": [
+    {
+      "area": "Corby",
+      "area_code": "E07000150",
+      "region": "East Midlands"
+    },
+    {
+      "area": "Daventry",
+      "area_code": "E07000151",
+      "region": "East Midlands"
+    },
+    {
+      "area": "East Northamptonshire",
+      "area_code": "E07000152",
+      "region": "East Midlands"
+    },
+    {
+      "area": "Kettering",
+      "area_code": "E07000153",
+      "region": "East Midlands"
+    },
+    {
+      "area": "Northampton",
+      "area_code": "E07000154",
+      "region": "East Midlands"
+    },
+    {
+      "area": "South Northamptonshire",
+      "area_code": "E07000155",
+      "region": "East Midlands"
+    },
+    {
+      "area": "Wellingborough",
+      "area_code": "E07000156",
+      "region": "East Midlands"
+    },
+    {
+      "area": "Forest Heath",
+      "area_code": "E07000201",
+      "region": "East of England"
+    },
+    {
+      "area": "St Edmundsbury",
+      "area_code": "E07000204",
+      "region": "East of England"
+    },
+    {
+      "area": "Suffolk Coastal",
+      "area_code": "E07000205",
+      "region": "East of England"
+    },
+    {
+      "area": "Waveney",
+      "area_code": "E07000206",
+      "region": "East of England"
+    },
+    {
+      "area": "Aylesbury Vale",
+      "area_code": "E07000004",
+      "region": "South East"
+    },
+    {
+      "area": "Chiltern",
+      "area_code": "E07000005",
+      "region": "South East"
+    },
+    {
+      "area": "South Bucks",
+      "area_code": "E07000006",
+      "region": "South East"
+    },
+    {
+      "area": "Wycombe",
+      "area_code": "E07000007",
+      "region": "South East"
+    },
+    {
+      "area": "Bournemouth",
+      "area_code": "E06000028",
+      "region": "South West"
+    },
+    {
+      "area": "Poole",
+      "area_code": "E06000029",
+      "region": "South West"
+    },
+    {
+      "area": "Christchurch",
+      "area_code": "E07000048",
+      "region": "South West"
+    },
+    {
+      "area": "East Dorset",
+      "area_code": "E07000049",
+      "region": "South West"
+    },
+    {
+      "area": "North Dorset",
+      "area_code": "E07000050",
+      "region": "South West"
+    },
+    {
+      "area": "Purbeck",
+      "area_code": "E07000051",
+      "region": "South West"
+    },
+    {
+      "area": "West Dorset",
+      "area_code": "E07000052",
+      "region": "South West"
+    },
+    {
+      "area": "Weymouth and Portland",
+      "area_code": "E07000053",
+      "region": "South West"
+    },
+    {
+      "area": "Taunton Deane",
+      "area_code": "E07000190",
+      "region": "South West"
+    },
+    {
+      "area": "West Somerset",
+      "area_code": "E07000191",
+      "region": "South West"
+    }
+  ]
+}

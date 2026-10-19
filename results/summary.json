@@ -1,0 +1,292 @@
+{
+  "areas_2011": 348,
+  "areas_matched_2021": 323,
+  "pca_marked_20": {
+    "features": 20,
+    "explained_variance": [
+      0.4729,
+      0.2599
+    ],
+    "explained_total": 0.7328,
+    "top_loadings": {
+      "PC1": {
+        "not_limited_pct": 0.29,
+        "limited_any_pct": -0.29,
+        "fair_health_pct": -0.289,
+        "part_time_pct": -0.283,
+        "moved_out_pct": 0.279
+      },
+      "PC2": {
+        "employment_pct": 0.403,
+        "unemployment_pct": -0.39,
+        "bad_or_very_bad_health_pct": -0.295,
+        "inactivity_pct": -0.284,
+        "moved_within_area_pct": -0.262
+      }
+    }
+  },
+  "pca_socio_15": {
+    "features": 15,
+    "explained_variance": [
+      0.4746,
+      0.2225
+    ],
+    "explained_total": 0.6972,
+    "top_loadings": {
+      "PC1": {
+        "mixed_pct": 0.344,
+        "moved_from_outside_uk_pct": 0.329,
+        "white_pct": -0.326,
+        "other_pct": 0.319,
+        "black_pct": 0.297
+      },
+      "PC2": {
+        "unemployment_pct": 0.47,
+        "employment_pct": -0.445,
+        "inactivity_pct": 0.42,
+        "part_time_pct": 0.331,
+        "moved_within_area_pct": 0.322
+      }
+    }
+  },
+  "clustering": {
+    "k": 2,
+    "silhouette": {
+      "2": 0.512,
+      "3": 0.26,
+      "4": 0.251,
+      "5": 0.257,
+      "6": 0.23,
+      "7": 0.207,
+      "8": 0.205
+    }
+  },
+  "clusters": [
+    {
+      "cluster": 0,
+      "name": "Diverse, high-migration urban areas",
+      "areas": 48,
+      "unemployment_pct": 7.33,
+      "white_pct": 64.57,
+      "moved_from_outside_uk_pct": 2.55,
+      "good_health_2011_pct": 83.4,
+      "good_change_pp": 1.274
+    },
+    {
+      "cluster": 1,
+      "name": "Less diverse, lower-migration areas",
+      "areas": 300,
+      "unemployment_pct": 5.51,
+      "white_pct": 93.82,
+      "moved_from_outside_uk_pct": 0.73,
+      "good_health_2011_pct": 80.99,
+      "good_change_pp": 0.52
+    }
+  ],
+  "models": {
+    "intercept_only": {
+      "predictors": [],
+      "cv_5fold": {
+        "rmse_pp": 0.743,
+        "r2": -0.001,
+        "coverage_95": 0.935
+      }
+    },
+    "marked_version": {
+      "predictors": [
+        "unemployment_pct",
+        "asian_pct"
+      ],
+      "cv_5fold": {
+        "rmse_pp": 0.634,
+        "r2": 0.27,
+        "coverage_95": 0.95
+      },
+      "coefficients_raw": [
+        {
+          "term": "intercept",
+          "mean": -0.2764,
+          "ci_low": -0.4912,
+          "ci_high": -0.0609,
+          "p_positive": 0.006
+        },
+        {
+          "term": "unemployment_pct",
+          "mean": 0.1283,
+          "ci_low": 0.0895,
+          "ci_high": 0.167,
+          "p_positive": 1.0
+        },
+        {
+          "term": "asian_pct",
+          "mean": 0.0279,
+          "ci_low": 0.0179,
+          "ci_high": 0.0373,
+          "p_positive": 1.0
+        }
+      ],
+      "coefficients_per_sd": [
+        {
+          "term": "intercept",
+          "mean": 0.6313,
+          "ci_low": 0.564,
+          "ci_high": 0.6988,
+          "p_positive": 1.0
+        },
+        {
+          "term": "unemployment_pct",
+          "mean": 0.2504,
+          "ci_low": 0.1741,
+          "ci_high": 0.327,
+          "p_positive": 1.0
+        },
+        {
+          "term": "asian_pct",
+          "mean": 0.2166,
+          "ci_low": 0.1404,
+          "ci_high": 0.2925,
+          "p_positive": 1.0
+        }
+      ]
+    },
+    "extended": {
+      "predictors": [
+        "good_or_very_good_health_pct",
+        "unemployment_pct",
+        "inactivity_pct",
+        "asian_pct",
+        "moved_from_outside_uk_pct"
+      ],
+      "cv_5fold": {
+        "rmse_pp": 0.63,
+        "r2": 0.279,
+        "coverage_95": 0.944
+      },
+      "coefficients_per_sd": [
+        {
+          "term": "intercept",
+          "mean": 0.6322,
+          "ci_low": 0.5634,
+          "ci_high": 0.6992,
+          "p_positive": 1.0
+        },
+        {
+          "term": "good_or_very_good_health_pct",
+          "mean": -0.2784,
+          "ci_low": -0.4511,
+          "ci_high": -0.1016,
+          "p_positive": 0.001
+        },
+        {
+          "term": "unemployment_pct",
+          "mean": 0.0999,
+          "ci_low": -0.0141,
+          "ci_high": 0.2145,
+          "p_positive": 0.954
+        },
+        {
+          "term": "inactivity_pct",
+          "mean": -0.0817,
+          "ci_low": -0.2079,
+          "ci_high": 0.0507,
+          "p_positive": 0.106
+        },
+        {
+          "term": "asian_pct",
+          "mean": 0.2885,
+          "ci_low": 0.1932,
+          "ci_high": 0.3849,
+          "p_positive": 1.0
+        },
+        {
+          "term": "moved_from_outside_uk_pct",
+          "mean": 0.0906,
+          "ci_low": -0.0054,
+          "ci_high": 0.1895,
+          "p_positive": 0.968
+        }
+      ],
+      "in_sample_r2": 0.301
+    }
+  },
+  "good_change": {
+    "mean_pp": 0.632,
+    "min_pp": -1.81,
+    "max_pp": 3.33,
+    "areas_improved": 270,
+    "areas_worsened": 53,
+    "corr_with_2011_health": -0.228
+  },
+  "by_region": [
+    {
+      "region": "East Midlands",
+      "areas": 33,
+      "good_2011": 80.145,
+      "good_2021": 80.641,
+      "change": 0.496
+    },
+    {
+      "region": "East of England",
+      "areas": 43,
+      "good_2011": 82.486,
+      "good_2021": 82.967,
+      "change": 0.481
+    },
+    {
+      "region": "London",
+      "areas": 33,
+      "good_2011": 84.039,
+      "good_2021": 85.566,
+      "change": 1.527
+    },
+    {
+      "region": "North East",
+      "areas": 12,
+      "good_2011": 77.474,
+      "good_2021": 78.079,
+      "change": 0.605
+    },
+    {
+      "region": "North West",
+      "areas": 39,
+      "good_2011": 79.192,
+      "good_2021": 80.21,
+      "change": 1.019
+    },
+    {
+      "region": "South East",
+      "areas": 63,
+      "good_2011": 83.474,
+      "good_2021": 83.768,
+      "change": 0.294
+    },
+    {
+      "region": "South West",
+      "areas": 27,
+      "good_2011": 81.628,
+      "good_2021": 81.917,
+      "change": 0.289
+    },
+    {
+      "region": "Wales",
+      "areas": 22,
+      "good_2011": 77.511,
+      "good_2021": 78.298,
+      "change": 0.787
+    },
+    {
+      "region": "West Midlands",
+      "areas": 30,
+      "good_2011": 80.394,
+      "good_2021": 81.023,
+      "change": 0.63
+    },
+    {
+      "region": "Yorkshire and The Humber",
+      "areas": 21,
+      "good_2011": 80.307,
+      "good_2021": 80.643,
+      "change": 0.336
+    }
+  ]
+}
