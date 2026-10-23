@@ -1,0 +1,704 @@
+{
+  "areas": 323,
+  "full_sample": {
+    "areas": 323,
+    "unemployment_simple": {
+      "mean": 0.2504,
+      "ci_low": 0.1741,
+      "ci_high": 0.327
+    },
+    "unemployment_extended": {
+      "mean": 0.0999,
+      "ci_low": -0.0141,
+      "ci_high": 0.2145
+    },
+    "fall_pct": 60.1,
+    "extended_ci_excludes_zero": false,
+    "cv_r2_simple": 0.27,
+    "cv_r2_extended": 0.279
+  },
+  "bootstrap_fall": {
+    "reps": 2000,
+    "median_pct": 60.8,
+    "ci_low_pct": 19.4,
+    "ci_high_pct": 119.0,
+    "share_fall_above_50pct": 0.685
+  },
+  "leave_region_out": [
+    {
+      "excluded": "East Midlands",
+      "areas": 290,
+      "unemployment_simple": {
+        "mean": 0.2478,
+        "ci_low": 0.1661,
+        "ci_high": 0.3299
+      },
+      "unemployment_extended": {
+        "mean": 0.1004,
+        "ci_low": -0.0241,
+        "ci_high": 0.2242
+      },
+      "fall_pct": 59.5,
+      "extended_ci_excludes_zero": false,
+      "cv_r2_simple": 0.269,
+      "cv_r2_extended": 0.276
+    },
+    {
+      "excluded": "East of England",
+      "areas": 280,
+      "unemployment_simple": {
+        "mean": 0.2685,
+        "ci_low": 0.1852,
+        "ci_high": 0.3524
+      },
+      "unemployment_extended": {
+        "mean": 0.0855,
+        "ci_low": -0.0383,
+        "ci_high": 0.2102
+      },
+      "fall_pct": 68.2,
+      "extended_ci_excludes_zero": false,
+      "cv_r2_simple": 0.275,
+      "cv_r2_extended": 0.295
+    },
+    {
+      "excluded": "London",
+      "areas": 290,
+      "unemployment_simple": {
+        "mean": 0.2211,
+        "ci_low": 0.1425,
+        "ci_high": 0.3001
+      },
+      "unemployment_extended": {
+        "mean": -0.062,
+        "ci_low": -0.1843,
+        "ci_high": 0.0608
+      },
+      "fall_pct": 128.0,
+      "extended_ci_excludes_zero": false,
+      "cv_r2_simple": 0.161,
+      "cv_r2_extended": 0.205
+    },
+    {
+      "excluded": "North East",
+      "areas": 311,
+      "unemployment_simple": {
+        "mean": 0.2781,
+        "ci_low": 0.1985,
+        "ci_high": 0.358
+      },
+      "unemployment_extended": {
+        "mean": 0.1456,
+        "ci_low": 0.0257,
+        "ci_high": 0.2646
+      },
+      "fall_pct": 47.6,
+      "extended_ci_excludes_zero": true,
+      "cv_r2_simple": 0.28,
+      "cv_r2_extended": 0.281
+    },
+    {
+      "excluded": "North West",
+      "areas": 284,
+      "unemployment_simple": {
+        "mean": 0.2379,
+        "ci_low": 0.1586,
+        "ci_high": 0.3177
+      },
+      "unemployment_extended": {
+        "mean": 0.1146,
+        "ci_low": -0.0036,
+        "ci_high": 0.2331
+      },
+      "fall_pct": 51.8,
+      "extended_ci_excludes_zero": false,
+      "cv_r2_simple": 0.248,
+      "cv_r2_extended": 0.256
+    },
+    {
+      "excluded": "South East",
+      "areas": 260,
+      "unemployment_simple": {
+        "mean": 0.249,
+        "ci_low": 0.1637,
+        "ci_high": 0.335
+      },
+      "unemployment_extended": {
+        "mean": 0.1323,
+        "ci_low": 0.0102,
+        "ci_high": 0.2547
+      },
+      "fall_pct": 46.9,
+      "extended_ci_excludes_zero": true,
+      "cv_r2_simple": 0.271,
+      "cv_r2_extended": 0.265
+    },
+    {
+      "excluded": "South West",
+      "areas": 296,
+      "unemployment_simple": {
+        "mean": 0.2492,
+        "ci_low": 0.1693,
+        "ci_high": 0.3296
+      },
+      "unemployment_extended": {
+        "mean": 0.0988,
+        "ci_low": -0.0209,
+        "ci_high": 0.2189
+      },
+      "fall_pct": 60.4,
+      "extended_ci_excludes_zero": false,
+      "cv_r2_simple": 0.251,
+      "cv_r2_extended": 0.267
+    },
+    {
+      "excluded": "Wales",
+      "areas": 301,
+      "unemployment_simple": {
+        "mean": 0.2224,
+        "ci_low": 0.1436,
+        "ci_high": 0.3015
+      },
+      "unemployment_extended": {
+        "mean": 0.1113,
+        "ci_low": -0.0063,
+        "ci_high": 0.2294
+      },
+      "fall_pct": 50.0,
+      "extended_ci_excludes_zero": false,
+      "cv_r2_simple": 0.253,
+      "cv_r2_extended": 0.25
+    },
+    {
+      "excluded": "West Midlands",
+      "areas": 293,
+      "unemployment_simple": {
+        "mean": 0.2497,
+        "ci_low": 0.1694,
+        "ci_high": 0.3305
+      },
+      "unemployment_extended": {
+        "mean": 0.1018,
+        "ci_low": -0.0175,
+        "ci_high": 0.2215
+      },
+      "fall_pct": 59.2,
+      "extended_ci_excludes_zero": false,
+      "cv_r2_simple": 0.241,
+      "cv_r2_extended": 0.263
+    },
+    {
+      "excluded": "Yorkshire and The Humber",
+      "areas": 302,
+      "unemployment_simple": {
+        "mean": 0.2728,
+        "ci_low": 0.1962,
+        "ci_high": 0.3498
+      },
+      "unemployment_extended": {
+        "mean": 0.1518,
+        "ci_low": 0.0359,
+        "ci_high": 0.2675
+      },
+      "fall_pct": 44.4,
+      "extended_ci_excludes_zero": true,
+      "cv_r2_simple": 0.3,
+      "cv_r2_extended": 0.301
+    }
+  ],
+  "repeated_cv": {
+    "simple": {
+      "repeats": 20,
+      "folds": 5,
+      "r2_mean": 0.257,
+      "r2_sd": 0.006,
+      "r2_min": 0.245,
+      "r2_max": 0.266,
+      "coverage_mean": 0.948
+    },
+    "extended": {
+      "repeats": 20,
+      "folds": 5,
+      "r2_mean": 0.268,
+      "r2_sd": 0.006,
+      "r2_min": 0.257,
+      "r2_max": 0.277,
+      "coverage_mean": 0.945
+    }
+  },
+  "region_grouped_cv": {
+    "simple": {
+      "r2": 0.226,
+      "rmse_pp": 0.653,
+      "coverage_95": 0.944,
+      "per_region": [
+        {
+          "region": "East Midlands",
+          "areas": 33,
+          "rmse_pp": 0.52,
+          "mean_error_pp": -0.066,
+          "coverage_95": 1.0
+        },
+        {
+          "region": "East of England",
+          "areas": 43,
+          "rmse_pp": 0.559,
+          "mean_error_pp": -0.051,
+          "coverage_95": 1.0
+        },
+        {
+          "region": "London",
+          "areas": 33,
+          "rmse_pp": 0.737,
+          "mean_error_pp": 0.538,
+          "coverage_95": 0.939
+        },
+        {
+          "region": "North East",
+          "areas": 12,
+          "rmse_pp": 0.643,
+          "mean_error_pp": -0.397,
+          "coverage_95": 1.0
+        },
+        {
+          "region": "North West",
+          "areas": 39,
+          "rmse_pp": 0.75,
+          "mean_error_pp": 0.36,
+          "coverage_95": 0.923
+        },
+        {
+          "region": "South East",
+          "areas": 63,
+          "rmse_pp": 0.64,
+          "mean_error_pp": -0.217,
+          "coverage_95": 0.952
+        },
+        {
+          "region": "South West",
+          "areas": 27,
+          "rmse_pp": 0.544,
+          "mean_error_pp": -0.056,
+          "coverage_95": 0.926
+        },
+        {
+          "region": "Wales",
+          "areas": 22,
+          "rmse_pp": 0.775,
+          "mean_error_pp": 0.202,
+          "coverage_95": 0.909
+        },
+        {
+          "region": "West Midlands",
+          "areas": 30,
+          "rmse_pp": 0.472,
+          "mean_error_pp": -0.062,
+          "coverage_95": 1.0
+        },
+        {
+          "region": "Yorkshire and The Humber",
+          "areas": 21,
+          "rmse_pp": 0.897,
+          "mean_error_pp": -0.372,
+          "coverage_95": 0.714
+        }
+      ]
+    },
+    "extended": {
+      "r2": 0.183,
+      "rmse_pp": 0.671,
+      "coverage_95": 0.932,
+      "per_region": [
+        {
+          "region": "East Midlands",
+          "areas": 33,
+          "rmse_pp": 0.491,
+          "mean_error_pp": -0.131,
+          "coverage_95": 1.0
+        },
+        {
+          "region": "East of England",
+          "areas": 43,
+          "rmse_pp": 0.611,
+          "mean_error_pp": 0.016,
+          "coverage_95": 0.977
+        },
+        {
+          "region": "London",
+          "areas": 33,
+          "rmse_pp": 0.987,
+          "mean_error_pp": 0.734,
+          "coverage_95": 0.788
+        },
+        {
+          "region": "North East",
+          "areas": 12,
+          "rmse_pp": 0.528,
+          "mean_error_pp": -0.347,
+          "coverage_95": 1.0
+        },
+        {
+          "region": "North West",
+          "areas": 39,
+          "rmse_pp": 0.721,
+          "mean_error_pp": 0.319,
+          "coverage_95": 0.949
+        },
+        {
+          "region": "South East",
+          "areas": 63,
+          "rmse_pp": 0.621,
+          "mean_error_pp": -0.136,
+          "coverage_95": 0.952
+        },
+        {
+          "region": "South West",
+          "areas": 27,
+          "rmse_pp": 0.569,
+          "mean_error_pp": -0.106,
+          "coverage_95": 0.926
+        },
+        {
+          "region": "Wales",
+          "areas": 22,
+          "rmse_pp": 0.707,
+          "mean_error_pp": 0.125,
+          "coverage_95": 0.909
+        },
+        {
+          "region": "West Midlands",
+          "areas": 30,
+          "rmse_pp": 0.469,
+          "mean_error_pp": -0.071,
+          "coverage_95": 1.0
+        },
+        {
+          "region": "Yorkshire and The Humber",
+          "areas": 21,
+          "rmse_pp": 0.845,
+          "mean_error_pp": -0.369,
+          "coverage_95": 0.762
+        }
+      ]
+    }
+  },
+  "prior_sensitivity": [
+    {
+      "prior": "reference (headline)",
+      "simple": {
+        "coefficients_per_sd": {
+          "unemployment_pct": {
+            "mean": 0.2504,
+            "ci_low": 0.1741,
+            "ci_high": 0.327
+          },
+          "asian_pct": {
+            "mean": 0.2166,
+            "ci_low": 0.1404,
+            "ci_high": 0.2925
+          }
+        },
+        "cv_r2": 0.27,
+        "cv_coverage_95": 0.95
+      },
+      "extended": {
+        "coefficients_per_sd": {
+          "good_or_very_good_health_pct": {
+            "mean": -0.2784,
+            "ci_low": -0.4511,
+            "ci_high": -0.1016
+          },
+          "unemployment_pct": {
+            "mean": 0.0999,
+            "ci_low": -0.0141,
+            "ci_high": 0.2145
+          },
+          "inactivity_pct": {
+            "mean": -0.0817,
+            "ci_low": -0.2079,
+            "ci_high": 0.0507
+          },
+          "asian_pct": {
+            "mean": 0.2885,
+            "ci_low": 0.1932,
+            "ci_high": 0.3849
+          },
+          "moved_from_outside_uk_pct": {
+            "mean": 0.0906,
+            "ci_low": -0.0054,
+            "ci_high": 0.1895
+          }
+        },
+        "cv_r2": 0.279,
+        "cv_coverage_95": 0.944
+      },
+      "unemployment_fall_pct": 60.1
+    },
+    {
+      "prior": "N(0, (0.1 sigma)^2) on slopes",
+      "simple": {
+        "coefficients_per_sd": {
+          "unemployment_pct": {
+            "mean": 0.2021,
+            "ci_low": 0.1357,
+            "ci_high": 0.2687
+          },
+          "asian_pct": {
+            "mean": 0.1798,
+            "ci_low": 0.1139,
+            "ci_high": 0.2453
+          }
+        },
+        "cv_r2": 0.258,
+        "cv_coverage_95": 0.954
+      },
+      "extended": {
+        "coefficients_per_sd": {
+          "good_or_very_good_health_pct": {
+            "mean": -0.1022,
+            "ci_low": -0.1926,
+            "ci_high": -0.0097
+          },
+          "unemployment_pct": {
+            "mean": 0.1393,
+            "ci_low": 0.0605,
+            "ci_high": 0.2184
+          },
+          "inactivity_pct": {
+            "mean": 0.0236,
+            "ci_low": -0.0552,
+            "ci_high": 0.1054
+          },
+          "asian_pct": {
+            "mean": 0.1956,
+            "ci_low": 0.1222,
+            "ci_high": 0.2678
+          },
+          "moved_from_outside_uk_pct": {
+            "mean": 0.0487,
+            "ci_low": -0.0212,
+            "ci_high": 0.1195
+          }
+        },
+        "cv_r2": 0.272,
+        "cv_coverage_95": 0.96
+      },
+      "unemployment_fall_pct": 31.1
+    },
+    {
+      "prior": "N(0, (0.25 sigma)^2) on slopes",
+      "simple": {
+        "coefficients_per_sd": {
+          "unemployment_pct": {
+            "mean": 0.2411,
+            "ci_low": 0.1669,
+            "ci_high": 0.3155
+          },
+          "asian_pct": {
+            "mean": 0.2098,
+            "ci_low": 0.1362,
+            "ci_high": 0.2832
+          }
+        },
+        "cv_r2": 0.27,
+        "cv_coverage_95": 0.947
+      },
+      "extended": {
+        "coefficients_per_sd": {
+          "good_or_very_good_health_pct": {
+            "mean": -0.2017,
+            "ci_low": -0.3435,
+            "ci_high": -0.0566
+          },
+          "unemployment_pct": {
+            "mean": 0.1251,
+            "ci_low": 0.022,
+            "ci_high": 0.2288
+          },
+          "inactivity_pct": {
+            "mean": -0.0359,
+            "ci_low": -0.1447,
+            "ci_high": 0.0782
+          },
+          "asian_pct": {
+            "mean": 0.2602,
+            "ci_low": 0.1712,
+            "ci_high": 0.3491
+          },
+          "moved_from_outside_uk_pct": {
+            "mean": 0.0687,
+            "ci_low": -0.0182,
+            "ci_high": 0.1574
+          }
+        },
+        "cv_r2": 0.282,
+        "cv_coverage_95": 0.944
+      },
+      "unemployment_fall_pct": 48.1
+    },
+    {
+      "prior": "N(0, (0.5 sigma)^2) on slopes",
+      "simple": {
+        "coefficients_per_sd": {
+          "unemployment_pct": {
+            "mean": 0.248,
+            "ci_low": 0.1724,
+            "ci_high": 0.3238
+          },
+          "asian_pct": {
+            "mean": 0.2149,
+            "ci_low": 0.1395,
+            "ci_high": 0.2898
+          }
+        },
+        "cv_r2": 0.27,
+        "cv_coverage_95": 0.95
+      },
+      "extended": {
+        "coefficients_per_sd": {
+          "good_or_very_good_health_pct": {
+            "mean": -0.2528,
+            "ci_low": -0.4149,
+            "ci_high": -0.0869
+          },
+          "unemployment_pct": {
+            "mean": 0.1088,
+            "ci_low": -0.0015,
+            "ci_high": 0.2199
+          },
+          "inactivity_pct": {
+            "mean": -0.0665,
+            "ci_low": -0.1869,
+            "ci_high": 0.0598
+          },
+          "asian_pct": {
+            "mean": 0.2799,
+            "ci_low": 0.1868,
+            "ci_high": 0.3735
+          },
+          "moved_from_outside_uk_pct": {
+            "mean": 0.0829,
+            "ci_low": -0.0099,
+            "ci_high": 0.1785
+          }
+        },
+        "cv_r2": 0.281,
+        "cv_coverage_95": 0.944
+      },
+      "unemployment_fall_pct": 56.1
+    },
+    {
+      "prior": "N(0, (1.0 sigma)^2) on slopes",
+      "simple": {
+        "coefficients_per_sd": {
+          "unemployment_pct": {
+            "mean": 0.2498,
+            "ci_low": 0.1738,
+            "ci_high": 0.326
+          },
+          "asian_pct": {
+            "mean": 0.2162,
+            "ci_low": 0.1403,
+            "ci_high": 0.2916
+          }
+        },
+        "cv_r2": 0.27,
+        "cv_coverage_95": 0.95
+      },
+      "extended": {
+        "coefficients_per_sd": {
+          "good_or_very_good_health_pct": {
+            "mean": -0.2714,
+            "ci_low": -0.4403,
+            "ci_high": -0.0987
+          },
+          "unemployment_pct": {
+            "mean": 0.1024,
+            "ci_low": -0.0102,
+            "ci_high": 0.2154
+          },
+          "inactivity_pct": {
+            "mean": -0.0776,
+            "ci_low": -0.2015,
+            "ci_high": 0.0529
+          },
+          "asian_pct": {
+            "mean": 0.2862,
+            "ci_low": 0.1922,
+            "ci_high": 0.3814
+          },
+          "moved_from_outside_uk_pct": {
+            "mean": 0.0885,
+            "ci_low": -0.0061,
+            "ci_high": 0.1861
+          }
+        },
+        "cv_r2": 0.28,
+        "cv_coverage_95": 0.941
+      },
+      "unemployment_fall_pct": 59.0
+    },
+    {
+      "prior": "N(0, (10.0 sigma)^2) on slopes",
+      "simple": {
+        "coefficients_per_sd": {
+          "unemployment_pct": {
+            "mean": 0.2504,
+            "ci_low": 0.1743,
+            "ci_high": 0.3267
+          },
+          "asian_pct": {
+            "mean": 0.2166,
+            "ci_low": 0.1406,
+            "ci_high": 0.2922
+          }
+        },
+        "cv_r2": 0.27,
+        "cv_coverage_95": 0.95
+      },
+      "extended": {
+        "coefficients_per_sd": {
+          "good_or_very_good_health_pct": {
+            "mean": -0.2783,
+            "ci_low": -0.4496,
+            "ci_high": -0.1031
+          },
+          "unemployment_pct": {
+            "mean": 0.0999,
+            "ci_low": -0.0132,
+            "ci_high": 0.2136
+          },
+          "inactivity_pct": {
+            "mean": -0.0817,
+            "ci_low": -0.2068,
+            "ci_high": 0.0497
+          },
+          "asian_pct": {
+            "mean": 0.2884,
+            "ci_low": 0.1939,
+            "ci_high": 0.3841
+          },
+          "moved_from_outside_uk_pct": {
+            "mean": 0.0906,
+            "ci_low": -0.0046,
+            "ci_high": 0.1888
+          }
+        },
+        "cv_r2": 0.279,
+        "cv_coverage_95": 0.941
+      },
+      "unemployment_fall_pct": 60.1
+    }
+  ],
+  "regression_to_mean": {
+    "observed_r": -0.228,
+    "observed_slope_pp_per_pp": -0.0522,
+    "sampling_noise_sd_pp": 0.1186,
+    "var_2011_good_health_pp2": 10.59,
+    "expected_r_from_sampling_noise": -0.00582,
+    "noise_sd_needed_to_explain_all_pp": 0.743,
+    "implied_reliability_if_all_rtm": 0.948,
+    "r_change_vs_2011_limited_activities": 0.136,
+    "corr_2011_good_health_vs_limited": -0.971
+  }
+}

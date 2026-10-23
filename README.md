@@ -19,6 +19,8 @@
 - **London and large diverse cities improved most.** A data-driven cluster of **48** ethnically diverse, high-migration areas gained **+1.27 pp** on average, against **+0.52 pp** for the other 300. London's 33 boroughs rose from 84.0% to 85.6%.
 - **The model explains about 28% of the variation** in change on held-out areas, and its 95% intervals contain 94% of real outcomes. Most of the variation comes from factors this data does not include, most likely age structure.
 
+- **Robustness:** the direction of each finding holds when any region is left out, under 20 different cross-validation splits and under different priors, but the exact sizes are less certain than the single figures suggest (see [Robustness checks](#robustness-checks)).
+
 These are area-level associations, not causes (see [Limitations](#8-limitations-and-ethics)).
 
 ## Contents
@@ -208,6 +210,70 @@ Predictors are standardised, so each coefficient is the change in pp per one sta
 
 **Conclusion.** Health improved slightly almost everywhere, most in London and diverse cities and least in parts of the South East and South West. Part of the variation is catch-up by areas that started less healthy. Unemployment adds little once that is accounted for. Areas with larger Asian populations improved more, but the likeliest explanation is a confounder this data lacks, such as a younger age structure, not ethnicity itself. The extended model adds little predictive power over the simple one (R² 0.28 vs 0.27), so its value is in interpretation, not forecasting.
 
+### Robustness checks
+
+`src/robustness.py` refits the same models on the same 323 areas with the data, the validation split and the prior changed, and writes every number below to `results/robustness.json`. The headline results above are unchanged; this section says how far they move.
+
+**1. Leaving regions out.** The unemployment effect (pp per SD) in the simple model and once 2011 health is controlled (extended model), refitted without each region in turn:
+
+| Left out | Areas | Simple | Extended (95% CI) | Fall | CV R², extended |
+|---|---|---|---|---|---|
+| None (headline) | 323 | +0.25 | +0.10 (−0.01 to +0.21) | 60% | 0.28 |
+| London | 290 | +0.22 | −0.06 (−0.18 to +0.06) | 128% | 0.21 |
+| East Midlands | 290 | +0.25 | +0.10 (−0.02 to +0.22) | 60% | 0.28 |
+| East of England | 280 | +0.27 | +0.09 (−0.04 to +0.21) | 68% | 0.30 |
+| North East | 311 | +0.28 | +0.15 (+0.03 to +0.27) | 48% | 0.28 |
+| North West | 284 | +0.24 | +0.12 (−0.004 to +0.23) | 52% | 0.26 |
+| South East | 260 | +0.25 | +0.13 (+0.01 to +0.26) | 47% | 0.27 |
+| South West | 296 | +0.25 | +0.10 (−0.02 to +0.22) | 60% | 0.27 |
+| Wales | 301 | +0.22 | +0.11 (−0.01 to +0.23) | 50% | 0.25 |
+| West Midlands | 293 | +0.25 | +0.10 (−0.02 to +0.22) | 59% | 0.26 |
+| Yorkshire and The Humber | 302 | +0.27 | +0.15 (+0.04 to +0.27) | 44% | 0.30 |
+
+- **The direction holds everywhere:** controlling for 2011 health always shrinks the unemployment effect, by at least 44%.
+- **The size of the fall does not.** "60%" is the full-sample point estimate; dropping one non-London region gives 44% to 68%, and dropping London removes the effect entirely (the controlled estimate turns slightly negative). Resampling areas (2,000 bootstrap draws) puts a 95% interval of **19% to 119%** on the fall, so the data support "roughly halved, possibly more", not a precise 60%.
+- **"No longer clearly different from zero" is fragile.** Without the North East, the South East or Yorkshire and The Humber, the controlled unemployment interval excludes zero.
+- **London carries much of the fit.** Without its 33 boroughs, cross-validated R² falls to 0.16 (simple) and 0.21 (extended).
+
+**2. How stable is the 28%?** The headline R² comes from one 5-fold split (seed 42). Over 20 different 5-fold splits:
+
+| Model | Mean CV R² | SD | Range | Mean 95% coverage |
+|---|---|---|---|---|
+| Simple | 0.257 | 0.006 | 0.245 to 0.266 | 94.8% |
+| Extended | 0.268 | 0.006 | 0.257 to 0.277 | 94.5% |
+
+The 0.279 headline sits just above every one of the 20 repeats, so **about 27% is the fairer figure**; the split itself matters little (SD 0.006). The extended model's edge over the simple one is about one point of R².
+
+A harder test holds out a whole region at a time (train on nine, predict the tenth):
+
+| Model | R² | RMSE (pp) | 95% coverage |
+|---|---|---|---|
+| Simple | 0.23 | 0.65 | 94.4% |
+| Extended | **0.18** | 0.67 | 93.2% |
+
+Predicting an unseen region is harder, and here the extended model does *worse* than the simple one. The weakest region is London: trained on the rest of the country, the extended model under-predicts London's gain by 0.73 pp on average and its intervals contain only 79% of boroughs (Yorkshire and The Humber: 76%). Regional effects that the predictors do not capture are part of what the 27% reflects.
+
+**3. Prior sensitivity.** The headline fit uses the reference prior. Refitting with a shrinkage prior on each standardised slope, β ~ N(0, (τσ)²):
+
+| Prior | 2011 health | Unemployment, extended (95% CI) | Fall | CV R², extended | Coverage |
+|---|---|---|---|---|---|
+| Reference (headline) | −0.28 | +0.10 (−0.01 to +0.21) | 60% | 0.279 | 94.4% |
+| τ = 10 | −0.28 | +0.10 (−0.01 to +0.21) | 60% | 0.279 | 94.1% |
+| τ = 1 | −0.27 | +0.10 (−0.01 to +0.22) | 59% | 0.280 | 94.1% |
+| τ = 0.5 | −0.25 | +0.11 (−0.002 to +0.22) | 56% | 0.281 | 94.4% |
+| τ = 0.25 | −0.20 | +0.13 (+0.02 to +0.23) | 48% | 0.282 | 94.4% |
+| τ = 0.1 | −0.10 | +0.14 (+0.06 to +0.22) | 31% | 0.272 | 96.0% |
+
+Weak priors (τ ≥ 0.5) change nothing that matters. Strong shrinkage pulls the 2011-health coefficient towards zero most, because it is correlated with unemployment, and hands some of its effect back to unemployment: the fall shrinks to 31-48% and the unemployment interval excludes zero. Predictive accuracy and coverage barely move under any prior. The confounding result therefore depends on letting the data, not the prior, decide how to split credit between two correlated predictors.
+
+**4. Regression to the mean in the catch-up.** If true health were unchanged and each Census added independent noise, the correlation between 2011 health and change would be negative from noise alone.
+
+- **Sampling noise is far too small to explain it.** The Census is a near-complete count; the binomial noise of each council's good-health share averages 0.12 pp, which would produce r ≈ −0.006, against the observed −0.23.
+- **Other noise could.** Independent reporting noise of 0.74 pp per Census (a reliability of 0.95 for the 2011 measure) would explain all of it. This data cannot measure such noise, so the catch-up can be neither confirmed as real nor dismissed as artefact.
+- **A second 2011 health measure shows a weaker catch-up.** Measured against the share whose day-to-day activities were limited (correlated −0.97 with good health), the catch-up correlation is 0.14 in the same direction instead of 0.23. Both answers come from the same respondents on the same day, so this is not an independent test, but it is consistent with part of the catch-up being specific to the good-health question.
+
+**What this changes.** The direction of every headline finding survives: unemployment's effect shrinks once 2011 health is controlled, the model beats the baseline under every split and prior, and its intervals stay calibrated (93-96%) except in held-out London and Yorkshire. Three numbers are less solid than they look on their own: the 60% fall (somewhere between about 20% and the whole effect), the 28% R² (about 27% on average, 18% for an unseen region), and the claim that unemployment's controlled effect is indistinguishable from zero (true in the full sample, not in every subset or under strong shrinkage).
+
 ## 8. Limitations and ethics
 
 - **Ecological data.** These are associations between areas, not individuals. They say nothing about whether any individual's health depends on their employment or ethnicity.
@@ -230,6 +296,7 @@ pip install -r requirements.txt
 python src/prepare.py     # clean and join -> data/processed/areas_2011_2021.csv
 python src/analyse.py     # PCA, t-SNE, clusters, models -> results/summary.json
 python src/dashboard.py   # docs/index.html and docs/figures/*.png
+python src/robustness.py  # leave-region-out, repeated CV, priors -> results/robustness.json
 ```
 
 Open `docs/index.html` in a browser to use the dashboard locally. Random seeds are fixed (42), so results are identical between runs.
